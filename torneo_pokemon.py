@@ -69,12 +69,16 @@
 # •	Cantidad de Pokémon Agua 
 # •	Cantidad de Pokémon Planta 
 # •	Promedio de poder final 
-# •	Mensaje especial si hubo Pokémon legendario 
+# •	Mensaje especial si hubo Pokémon legendario
 
 import os, random
 
 cantidad_combates = 0
-
+pokemon_planta = 0
+pokemon_fuego = 0
+pokemon_agua = 0
+contador_victoria = 0
+contador_derrota = 0
 try:
     while cantidad_combates <= 0: # En el while siempre ponemos lo que no queremos que pase, y esto se haga bucle
         cantidad_combates = int(input("Ingrese cantidad de combates \n"))
@@ -82,16 +86,47 @@ try:
             print("Debes ingresar un valor positivo") # Creamos este if para dar a saber el valor que va
     # Fuera del while, porque ya asumimos que el valor que viene esta correcto
     for x in range (cantidad_combates):
-        nombre_entrendor = ""
+        nombre_entrenador = ""
         tipo_pokemon = ""
-        while len(nombre_entrendor) < 3: #aqui entramos al while gracias a las variables vacias, que tienen valor 0
-            nombre_entrendor = input("Ingrese nombre \n")
-            if len(nombre_entrendor) < 3:
+        while len(nombre_entrenador) < 3: #aqui entramos al while gracias a las variables vacias, que tienen valor 0
+            nombre_entrenador = input("Ingrese nombre \n")
+            if len(nombre_entrenador) < 3:
                 print("El largo mínimo es de 3 caracteres")
         while len (tipo_pokemon) < 0 or (tipo_pokemon != 'a' and tipo_pokemon != 'f' and tipo_pokemon != 'p'):
             tipo_pokemon = input("Ingrese tipo pokemon \n").lower()
             if len(tipo_pokemon) < 0:
                 print("Debes colocar un caracter")
-            if len(tipo_pokemon) != 'a' and 
+            elif tipo_pokemon != 'f' and tipo_pokemon != 'a' and tipo_pokemon != 'p':
+                print("Solo existen los siguientes tipos \n A --> Agua \n P --> Planta \n F --> Fuego")
+            else:
+                break
+        poder_aleatorio = random.randint (1, 20)
+        #creamos contadores (arriba) y obtenemos bonificaciones
+        if tipo_pokemon == 'f':
+            bonificacion = 3
+            pokemon_fuego = + 1
+        elif tipo_pokemon == 'a':
+            bonificacion = 2
+            pokemon_agua = + 1
+        else:
+            bonificacion = 1
+            pokemon_planta = + 1
+        
+        poder_total = poder_aleatorio + bonificacion
+        if poder_total >= 18:
+            batalla = "Victoria"
+            contador_victoria = contador_victoria + 1
+        elif poder_total >= 10 and poder_total < 18:
+            batalla = "Difícil"
+        else:
+            batalla = "Derrota"
+            contador_derrota = contador_derrota + 1
+    #Imprimimos info
+    print(f"Cantidad de batallas: {cantidad_combates}")
+    print(f"Cantidad de victorias: {contador_victoria}")
+    print(f"Cantidad de derrotas: {contador_derrota}")
+    print(f"Cantidad pokemon tipo fuego: {pokemon_fuego}")
+    print(f"Cantidad pokemon tipo agua: {pokemon_agua}")
+    print(f"Cantidad pokemon tipo planta: {pokemon_planta}")
 except:
     print("Debe ser un valor numérico")
